@@ -1,2 +1,2 @@
 # NCKU-PD2
-This is homework record of Programming Designed 2 in National Cheng Kung University.
+This is the homework record for Programming Designed 2 at National Cheng Kung University.
