@@ -6,7 +6,7 @@ using namespace std;
 #define F first
 #define S second
 
-bool cmp(vector<string> a, vector<string> b) {
+bool cmp(vector<int> a, vector<int> b) {
     if (a[3] == b[3]) {
         if (a[1] == b[1]) {
             if (a[2] == b[2]) {
@@ -24,26 +24,29 @@ bool cmp(vector<string> a, vector<string> b) {
 
 int main(int argc, char** argv) {
     ifstream input(argv[1]);
-    vector<vector<string>> a;
+    vector<vector<int>> a;
     string line;
     while (input >> line) {
         stringstream ss(line);
         string obj;
-        vector<string> b;
+        vector<int> b;
         while (getline(ss, obj, ',')) {
-            b.push_back(obj);
+            int val;
+            if (obj == "f") val = 0;
+            else if (obj == "m") val = 1;
+            else val = stoi(obj);
+            b.push_back(val);
         }
         a.push_back(b);
     }
     sort(all(a), cmp);
-    string pre = a[0][3];
+    int pre = a[0][3];
     cout << pre;
     for (auto i : a) {
         if (i[3] == pre) {
             cout << "," << i[0];
         } else {
-            cout << '\n'
-                 << i[3] << "," << i[0];
+            cout << '\n' << i[3] << "," << i[0];
             pre = i[3];
         }
     }
