@@ -60,10 +60,9 @@ int main(int argc, char** argv) {
     while (fgets(line, sizeof(line), file)) {
         int index = 0;
         int comma = 0;
-        int len = strlen(line) - 2;
 
         int id = 0, date = 0, Time = 0;
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; isdigit(line[i]) || isalpha(line[i]) || line[i]==',' || line[i]=='-'; i++) {
             if (line[i] == ',') {
                 comma++;
                 index = 0;
