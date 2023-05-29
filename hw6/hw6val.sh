@@ -1,6 +1,6 @@
 if ! test -d ~/hw6/results ; then mkdir ~/hw6/results; fi
 if ! test -d ~/hw6/answer ; then mkdir ~/hw6/answer; fi
-cp -rf /home/share/hw6/* ~/hw6/answer
+cp -r /home/share/hw6/* ~/hw6/answer
 make -k clean all -C ~/hw6
 for i in {1..5}; do
 	for k in {1..3}; do
