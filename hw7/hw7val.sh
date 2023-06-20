@@ -3,12 +3,8 @@ if ! test -d ~/hw7/answer ; then mkdir ~/hw7/answer; fi
 cp -r /home/share/hw7/* ~/hw7/answer
 make -k clean all -C ~/hw7
 
-
 for i in {1..4}; do
 	for k in {1..3}; do
-		if (( $i == 1 )) && (( $k <= 2 )); then
-			continue;
-		fi
 		corpus=~/hw7/answer/testcase$i/corpus$i
 		query=~/hw7/answer/testcase$i/query$i
 		answer=~/hw7/answer/testcase${i}/result_${k}
