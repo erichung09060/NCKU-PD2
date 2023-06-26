@@ -45,7 +45,16 @@
 #pragma GCC optimize("-fdelete-null-pointer-checks")
 #pragma GCC optimize("Ofast,no-stack-protector,unroll-loops,fast-math")
 #pragma GCC target("fma,sse,sse2,sse3,sse4")
-#include <bits/stdc++.h>
+#include <chrono>
+#include <iostream>
+#include <vector>
+#include <utility>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <sstream>
+#include <algorithm>
 using namespace std;
 #define all(a) begin(a), end(a)
 #define pb push_back
@@ -54,14 +63,29 @@ using namespace std;
 #define S second
 #define mp make_pair
 
-unordered_map<string, unordered_set<int> > id_set;
-unordered_map<int,int> total_words;
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+ 
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+
+unordered_map<string, unordered_set<int,custom_hash> > id_set;
+unordered_map<int,int,custom_hash> total_words;
 map<pair<int,string>, int> word_cnt;
 
 int corpus_cnt = 0;
 
 int main(int argc, char **argv) {
-    cin.sync_with_stdio(0), cin.tie(0);
+   // cin.sync_with_stdio(0), cin.tie(0);
 
     ifstream corpus(argv[1]);
     ifstream query(argv[2]);
@@ -94,7 +118,7 @@ int main(int argc, char **argv) {
     while (getline(query, line)) {
         stringstream ss(line);
         string word;
-        unordered_map<int, double> ans;
+        unordered_map<int, double,custom_hash> ans;
         while (ss >> word) {
             for (auto &i : word) i = tolower(i);
             if (id_set.count(word)) {
